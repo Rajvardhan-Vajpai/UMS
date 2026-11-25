@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMS — One Student, Seven Portals</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2313315c'/><text x='50%25' y='56%25' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='22' fill='white'>UMS</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-badge">UMS</div>
+        <div>
+          <div class="brand-title">UMS · One Student, Seven Portals</div>
+          <div class="brand-sub">Unified Student Services Navigation</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="toggleFlowBtn" class="chip-btn" type="button" title="Toggle live journey flowchart">
+          <span class="dot"></span> Journey Map
+        </button>
+        <button id="resetDemoBtn" class="chip-btn secondary" type="button" title="Restart flow from Welcome">
+          ↺ Restart
+        </button>
+      </div>
+    </header>
+
+    <div class="workspace-grid" id="workspaceGrid">
+      <!-- Interactive Mobile/App Frame -->
+      <section class="phone-frame" aria-label="UMS Interactive Application">
+        <div class="status-bar">
+          <span id="clockText">9:41</span>
+          <span class="status-icons">5G · 100%</span>
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <nav class="app-nav">
+          <button id="backBtn" class="icon-btn" type="button" aria-label="Go back">‹</button>
+          <div class="nav-center">
+            <span id="navTitle">Welcome</span>
+            <span id="navBadge" class="nav-pill">Step 1 / 8</span>
+          </div>
+          <button id="helpQuickBtn" class="icon-btn small-ico" type="button" title="7 Portals & FAQs" aria-label="Help and FAQs">?</button>
+        </nav>
+
+        <main id="screenRoot" class="screen-root" tabindex="-1"></main>
+
+        <footer class="app-footer">
+          <span id="footerPortal">UMS Navigation Hub</span>
+          <span id="footerCount">Screen 1 of 8</span>
+        </footer>
+      </section>
+
+      <!-- Live Flowchart Panel (mirrors the user's flowchart diagram) -->
+      <aside class="flow-panel" id="flowPanel" aria-label="Live Navigation Flowchart">
+        <div class="flow-header">
+          <div>
+            <div class="eyebrow">Live Architecture</div>
+            <h2>User Journey Flow</h2>
+          </div>
+          <span class="flow-status-pill" id="flowCurrentLabel">Welcome Screen</span>
+        </div>
+        <p class="flow-desc">Tracks your live position across the UMS navigation flow. Click any visited step or service branch to jump.</p>
+
+        <div class="flowchart" id="flowchartCanvas">
+          <div class="fc-node fc-pill" data-node="start">Start</div>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="welcome" data-go="0">Welcome Screen</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="dashboard" data-go="1">Student Dashboard</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="select" data-go="2">Select a Task</button>
+          <div class="fc-arrow">↓</div>
+          <div class="fc-node fc-dashed" data-node="service">Choose Service</div>
+
+          <div class="fc-branches">
+            <div class="fc-branch" data-branch="attendance">
+              <div class="fc-branch-tag">Attendance</div>
+              <div class="fc-arrow small">↓</div>
+              <button class="fc-node branch-btn" data-task="attendance">Check Attendance</button>
+            </div>
+            <div class="fc-branch" data-branch="fine">
+              <div class="fc-branch-tag">Fine Payment</div>
+              <div class="fc-arrow small">↓</div>
+              <button class="fc-node branch-btn" data-task="fine">Pay Fine</button>
+            </div>
+            <div class="fc-branch" data-branch="slot">
+              <div class="fc-branch-tag">Slot Booking</div>
+              <div class="fc-arrow small">↓</div>
+              <button class="fc-node branch-btn" data-task="slot">Book a Slot</button>
+            </div>
+          </div>
+
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="details" data-go="3">View Task Details</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="guidance" data-go="4">Step-by-Step Guidance</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="redirect" data-go="5">Redirect to Relevant Portal</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="intended" data-go="5b">Reach Intended Task Page</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="outcome" data-go="6">Task Outcome</button>
+          <div class="fc-arrow">↓</div>
+          <button class="fc-node" data-node="feedback" data-go="7">Submit User Feedback</button>
+          <div class="fc-arrow">↓</div>
+          <div class="fc-node fc-pill" data-node="end">End</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Help & Seven Portals Directory Modal -->
+  <div class="modal-backdrop" id="helpModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Directory & Support</div>
+          <h2 id="helpModalTitle">Seven Portals & FAQs</h2>
+        </div>
+        <button id="closeHelpBtn" class="icon-btn" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="helpModalBody"></div>
+    </div>
+  </div>
+
+  <script defer src="app.js"></script>
+</body>
+</html>
